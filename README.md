@@ -1,3 +1,3 @@
 # Analysis of install counts on Google Play Store
 
-## About
+## 資料集介紹 & 研究動機
