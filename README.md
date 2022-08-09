@@ -1,1 +1,1 @@
-# analysis-of-install-counts-on-google-play-store
+# Analysis of install counts on Google Play Store
