@@ -31,7 +31,7 @@ data['Android Ver'] = le.fit_transform(data['Android Ver'])
 ```
 # 把資料中的"M"去掉
 df_size['Size'] = df_size['Size'].map(lambda x: str(x)[:-1])
-#String轉float
+# String轉float
 df_size['Size'] = df_size['Size'].astype('float')
 # 標記1~100M, 100M~
 for i in range(len(df_size)):
