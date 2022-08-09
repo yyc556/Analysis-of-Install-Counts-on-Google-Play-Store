@@ -1,4 +1,4 @@
-# Analysis of install counts on Google Play Store
+# Google Play Store Apps 下載量分析
 大數據分析與應用-蔡孟勳 課程期末專題
 <br>組員：陳彥妤、林旭容
 
