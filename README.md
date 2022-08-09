@@ -11,3 +11,7 @@
 ### 研究動機
 分析APP的各項資料與下載量的關係，了解哪些因素對下載量的影響較大。提供App開發者一項依據來設定App的推出方向。
 
+### 魚骨圖
+![image](https://github.com/yyc556/analysis-of-install-counts-on-google-play-store/blob/main/images/fish%20bone%20diagram.png)
+
+## 資料預處理
