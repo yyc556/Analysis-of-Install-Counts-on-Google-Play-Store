@@ -85,7 +85,64 @@ features_pca = pca.fit_transform(features)
 print("Original number of features:", features.shape[1])
 print("Reduce number of features:", features_pca.shape[1])
 ```
+<img src="https://github.com/yyc556/analysis-of-install-counts-on-google-play-store/blob/main/images/PCA%20result.png" width=40%>
 
+```
+# Info Gain與Gain Ratio
+!pip install info_gain
+
+# Installs欄位為target column
+X=data.drop(['Installs'],axis=1)
+y=data.Installs
+
+from info_gain import info_gain
+import pandas as pd
+print('info_gain:')
+infogain={}
+for i in data.columns:
+  ig = info_gain.info_gain(data[i], data['Installs'])
+  infogain[i]=ig
+a=sorted(infogain.items(),key=lambda item:item[1])
+for i in a:
+  print(i)
+print('\ngain_ratio:')
+gainratio={}
+for i in data.columns:
+  igr = info_gain.info_gain_ratio(data[i], data['Installs'])
+  gainratio[i]=igr
+b=sorted(gainratio.items(),key=lambda item:item[1])
+for i in b:
+  print(i)
+```
+<img src="https://github.com/yyc556/analysis-of-install-counts-on-google-play-store/blob/main/images/info%20gain.png" width=40%>
+<img src="https://github.com/yyc556/analysis-of-install-counts-on-google-play-store/blob/main/images/gain%20ratio.png" width=40%>
+
+```
+# 綜合PCA和Info Gain/Gain Ratio結果，刪除'Type', 'Content Rating'兩個欄位
+data = data.drop(labels=['Type', 'Content Rating'],axis=1)  
+```
+## 資料分割
 
 ## 模型建立
 Decision Tree, Random Forest, KNN, ANN
+* Decision Tree
+```
+from sklearn import model_selection, tree, metrics
+dtc = tree.DecisionTreeClassifier()
+dtc.fit(X_train, y_train)
+print(metrics.classification_report(y_true=y_test, y_pred=dtc.predict(X_test)))
+metrics.confusion_matrix(y_true=y_test, y_pred=dtc.predict(X_test))
+```
+* Random Forest
+```
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import roc_curve,roc_auc_score,auc,accuracy_score,confusion_matrix,classification_report
+rfc=RandomForestClassifier(n_estimators=5)
+rfc.fit(X_train,y_train)
+rfc_pred=rfc.predict(X_test)
+print(confusion_matrix(y_test,rfc_pred))
+print(classification_report(y_test,rfc_pred))
+```
+* KNN
+* ANN
+
