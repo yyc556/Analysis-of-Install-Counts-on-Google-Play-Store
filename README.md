@@ -85,7 +85,8 @@ features_pca = pca.fit_transform(features)
 print("Original number of features:", features.shape[1])
 print("Reduce number of features:", features_pca.shape[1])
 ```
-![image](https://github.com/yyc556/analysis-of-install-counts-on-google-play-store/blob/main/images/PCA%20result.png)
+<img src="https://github.com/yyc556/analysis-of-install-counts-on-google-play-store/blob/main/images/PCA%20result.png" width=40%>
+
 ```
 # Info Gain與Gain Ratio
 !pip install info_gain
@@ -113,8 +114,13 @@ b=sorted(gainratio.items(),key=lambda item:item[1])
 for i in b:
   print(i)
 ```
-![image](https://github.com/yyc556/analysis-of-install-counts-on-google-play-store/blob/main/images/info%20gain.png)
-![image](https://github.com/yyc556/analysis-of-install-counts-on-google-play-store/blob/main/images/gain%20ratio.png)
+<img src="https://github.com/yyc556/analysis-of-install-counts-on-google-play-store/blob/main/images/info%20gain.png" width=40%>
+<img src="https://github.com/yyc556/analysis-of-install-counts-on-google-play-store/blob/main/images/gain%20ratio.png" width=40%>
+
+```
+# 綜合PCA和Info Gain/Gain Ratio結果，刪除'Type', 'Content Rating'兩個欄位
+data = data.drop(labels=['Type', 'Content Rating'],axis=1)  
+```
 
 ## 模型建立
 Decision Tree, Random Forest, KNN, ANN
