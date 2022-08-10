@@ -6,7 +6,7 @@
 <br>[Google Play Store Apps | Kaggle](https://www.kaggle.com/datasets/lava18/google-play-store-apps)
 * 研究動機
 <br>分析APP的各項資料與下載量的關係，了解哪些因素對下載量的影響較大。提供App開發者一項依據來設定App的推出方向。
-* 模型
+* 使用模型
 <br>Decision Tree, Random Forest, KNN, ANN
 
 ## 資料預處理
