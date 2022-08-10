@@ -121,6 +121,28 @@ for i in b:
 # 綜合PCA和Info Gain/Gain Ratio結果，刪除'Type', 'Content Rating'兩個欄位
 data = data.drop(labels=['Type', 'Content Rating'],axis=1)  
 ```
+## 資料分割
 
 ## 模型建立
 Decision Tree, Random Forest, KNN, ANN
+* Decision Tree
+```
+from sklearn import model_selection, tree, metrics
+dtc = tree.DecisionTreeClassifier()
+dtc.fit(X_train, y_train)
+print(metrics.classification_report(y_true=y_test, y_pred=dtc.predict(X_test)))
+metrics.confusion_matrix(y_true=y_test, y_pred=dtc.predict(X_test))
+```
+* Random Forest
+```
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import roc_curve,roc_auc_score,auc,accuracy_score,confusion_matrix,classification_report
+rfc=RandomForestClassifier(n_estimators=5)
+rfc.fit(X_train,y_train)
+rfc_pred=rfc.predict(X_test)
+print(confusion_matrix(y_test,rfc_pred))
+print(classification_report(y_test,rfc_pred))
+```
+* KNN
+* ANN
+
