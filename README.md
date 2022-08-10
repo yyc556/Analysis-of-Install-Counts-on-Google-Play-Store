@@ -121,7 +121,6 @@ for i in b:
 # 綜合PCA和Info Gain/Gain Ratio結果，刪除'Type', 'Content Rating'兩個欄位
 data = data.drop(labels=['Type', 'Content Rating'],axis=1)  
 ```
-## 資料分割
 
 ## 模型建立
 Decision Tree, Random Forest, KNN, ANN
@@ -132,7 +131,18 @@ dtc = tree.DecisionTreeClassifier()
 dtc.fit(X_train, y_train)
 print(metrics.classification_report(y_true=y_test, y_pred=dtc.predict(X_test)))
 metrics.confusion_matrix(y_true=y_test, y_pred=dtc.predict(X_test))
+
+import pydotplus
+from IPython.display import Image
+
+feature_names = ['Category', 'Rating', 'Reviews', 'Size', 'Price', 'Genres', 'Last Updated', 'Current Ver', 'Android Ver']
+traget_name = ['0','1','2','3']
+dot_data = tree.export_graphviz(dtc, out_file=None, rounded=True, special_characters=True, feature_names=feature_names, class_names=traget_name, max_depth=3)
+graph = pydotplus.graph_from_dot_data(dot_data)
+Image(graph.create_png())
 ```
+<img src="https://github.com/yyc556/analysis-of-install-counts-on-google-play-store/blob/main/images/decision%20tree.png">
+
 * Random Forest
 ```
 from sklearn.ensemble import RandomForestClassifier
@@ -142,7 +152,73 @@ rfc.fit(X_train,y_train)
 rfc_pred=rfc.predict(X_test)
 print(confusion_matrix(y_test,rfc_pred))
 print(classification_report(y_test,rfc_pred))
+
+imp=rfc.feature_importances_
+names=data.columns
+zip(imp,names)
+imp, names= zip(*sorted(zip(imp,names)))
+plt.barh(range(len(names)),imp,align='center')
+plt.yticks(range(len(names)),names)
+plt.xlabel('Importance of Features')
+plt.ylabel('Features')
+plt.title('Importance of Each Feature')
+plt.show()
 ```
+<img src="https://github.com/yyc556/analysis-of-install-counts-on-google-play-store/blob/main/images/random%20forest.png" width=40%>
+
 * KNN
+```
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn import tree
+from sklearn.metrics import roc_curve,roc_auc_score,auc,accuracy_score,confusion_matrix,classification_report
+import pydotplus
+from IPython.display import Image
+
+error_rate=[]
+for i in range(1,10):
+  knn=KNeighborsClassifier(n_neighbors=i)
+  knn.fit(X_train,y_train)
+  pred_i=knn.predict(X_test)
+  error_rate.append(np.mean(pred_i!=y_test))
+
+plt.figure(figsize=(10,6))
+plt.plot(range(1,10),error_rate,color='blue',linestyle='dashed',marker='o',markerfacecolor='red',markersize=10)
+plt.title('Error rate vs. K Value')
+plt.xlabel('K')
+plt.ylabel('Error Rate')
+
+# with k=9
+knn=KNeighborsClassifier(n_neighbors=9)
+knn.fit(X_train,y_train)
+pred=knn.predict(X_test)
+print('WITH k=9')
+print('\n')
+print(confusion_matrix(y_test,pred))
+print('\n')
+print(classification_report(y_test,pred))
+```
+<img src="https://github.com/yyc556/analysis-of-install-counts-on-google-play-store/blob/main/images/k%20value%20compare.png" width=40%>
+
 * ANN
+```
+import pandas as pd
+from sklearn import preprocessing, neural_network, model_selection
+mms = preprocessing.MinMaxScaler()
+mlp = neural_network.MLPClassifier()
+mlp.fit(X_train, y_train)
+#mlp.predict([[0, 4.1, 0, 0, 0, 9, 561, 2582, 8]])
+mlp.score(X_test, y_test)
+```
+
+## 結果比較
+* ROC curve
+看出Random Forest的準確度較高
+<img src="https://github.com/yyc556/analysis-of-install-counts-on-google-play-store/blob/main/images/ROC%20curve.png" width=40%>
+
+* Random Forest Visulization
+發現 Rating和下載量的高低最相關
+<img src="https://github.com/yyc556/analysis-of-install-counts-on-google-play-store/blob/main/images/random%20forest.png" width=40%>
+
 
